@@ -7,9 +7,8 @@ import java.nio.file.StandardCopyOption;
 public class SostitutoreDate {
 
     private static final String cam101 = "_cam101";
-    //private static final String cam100 = "_cam100";
-    //private static final String cam10 = "_cam10";
-    private static int SECONDI = 84600;
+    private static int SECONDI = 86400;
+
     public static void main(String[] args) {
 
 
@@ -17,15 +16,16 @@ public class SostitutoreDate {
         System.out.println("nella cartella di sono " + files.length + " file");
         boolean rename101 = false;
 
-  while (SECONDI>0) {
-      for (int i = SECONDI-1; i > 0; i--) {
+
+      for (int i = 0; i < files.length; i++) {
           if (files[i].isFile()) {
+
               File newFile101 = sostituisciNomeImmagine101(files[i]);
 
               rename101 = files[i].renameTo(newFile101);
 
               System.out.println(files[i]);
-              SECONDI--;
+
               try {
                   Path destPath101 = getCartella101().toPath().resolve(newFile101.getName());
                   Files.copy(newFile101.toPath(), destPath101, StandardCopyOption.REPLACE_EXISTING);
@@ -36,7 +36,8 @@ public class SostitutoreDate {
                   e.printStackTrace();
               }
               try {
-                  Thread.sleep(1000);
+                  Thread.sleep(1000
+                  );
               } catch (Exception e) {
                   throw new RuntimeException(e);
               }
@@ -47,7 +48,7 @@ public class SostitutoreDate {
               System.out.println("errore");
           }
       }
-  }
+
     }
 
     public static File getCartella() {
