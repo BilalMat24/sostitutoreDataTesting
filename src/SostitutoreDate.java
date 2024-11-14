@@ -7,7 +7,7 @@ import java.nio.file.StandardCopyOption;
 public class SostitutoreDate {
 
     private static final String cam101 = "_cam101";
-    private static int SECONDI = 86400;
+    private static int SECONDI = 0;
 
     public static void main(String[] args) {
 
@@ -64,7 +64,7 @@ public class SostitutoreDate {
 
     public static File sostituisciNomeImmagine101(File file1) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-        String timestamp = dateFormat.format(new Date());;
+        String timestamp = dateFormat.format(new Date());
         return new File(getCartella() + "/2024725000_" + timestamp + cam101 + ".jpg");
     }
 
