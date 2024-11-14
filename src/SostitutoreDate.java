@@ -4,51 +4,53 @@ import java.util.Date;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+
 public class SostitutoreDate {
 
     private static final String cam101 = "_cam101";
-    private static int SECONDI = 0;
+    /*private static int SECONDI = 8640*/;
 
     public static void main(String[] args) {
 
 
-        File[] files = getCartella().listFiles();
-        System.out.println("nella cartella di sono " + files.length + " file");
+
         boolean rename101 = false;
+        int secondi = 8640;
+        for(int j = 0; j < secondi; j++) {
+            File[] files = getCartella().listFiles();
+            System.out.println("nella cartella ci sono " + files.length + " file");
+            for (int i = 0; i < files.length; i++) {
+                if (files[i].isFile()) {
 
+                    File newFile101 = sostituisciNomeImmagine101(files[i]);
 
-      for (int i = 0; i < files.length; i++) {
-          if (files[i].isFile()) {
+                    rename101 = files[i].renameTo(newFile101);
 
-              File newFile101 = sostituisciNomeImmagine101(files[i]);
+                    System.out.println(files[i]);
 
-              rename101 = files[i].renameTo(newFile101);
+                    try {
+                        Path destPath101 = getCartella101().toPath().resolve(newFile101.getName());
+                        Files.copy(newFile101.toPath(), destPath101, StandardCopyOption.REPLACE_EXISTING);
+                        System.out.println("File copiato in: " + destPath101);
 
-              System.out.println(files[i]);
+                    } catch (IOException e) {
+                        System.out.println("File non copiato: errore");
+                        e.printStackTrace();
+                    }
+                    try {
+                        Thread.sleep(1000);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                    if (rename101 == true) {
+                        System.out.println("file rinominato");
+                    } else {
+                        System.out.println("errore file non rinominato");
+                    }
+                }
 
-              try {
-                  Path destPath101 = getCartella101().toPath().resolve(newFile101.getName());
-                  Files.copy(newFile101.toPath(), destPath101, StandardCopyOption.REPLACE_EXISTING);
-                  System.out.println("File copiato in: " + destPath101);
-
-              } catch (IOException e) {
-                  System.out.println("File non copiato: errore");
-                  e.printStackTrace();
-              }
-              try {
-                  Thread.sleep(1000
-                  );
-              } catch (Exception e) {
-                  throw new RuntimeException(e);
-              }
-          }
-          if (rename101 == true) {
-              System.out.println("file rinominato");
-          } else {
-              System.out.println("errore");
-          }
-      }
-
+            }
+        }
     }
 
     public static File getCartella() {
