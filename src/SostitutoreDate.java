@@ -22,7 +22,6 @@ public class SostitutoreDate {
     private static int WAIT = 1000; // aspetto 1000 millisecondi(1s)
     public static void main(String[] args) {
 
-        // File[] files = getCartella().listFiles() spostato all'interno del primo for così viene aggiornato ad ongi ciclo con i nuovi nomi delle img
 
         Scanner scanner = new Scanner(System.in); //System.in is a standard input stream
         System.out.print("Digita ora per le Ore oppure minuti per i Minuti: ");
