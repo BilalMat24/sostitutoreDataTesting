@@ -21,13 +21,23 @@ public class SostitutoreDate {
 
     private static int GIRI = 6; // il programma elabora 10 img al secondo, quindi 6 giri sono 60 img al minuto
     private static int WAIT = 1000; // aspetto 1000 millisecondi(1s)
+    volatile static int minuto = 0;
+    volatile static boolean rename100 = false;
+    volatile static boolean rename101 = false;
+    volatile static boolean rename102 = false;
+    volatile static boolean rename103 = false;
+    volatile static boolean rename104 = false;
+    volatile static boolean rename105 = false;
+    volatile static boolean rename106 = false;
+    volatile static boolean rename107 = false;
+    volatile static boolean rename108 = false;
+    volatile static boolean rename109 = false;
     public static void main(String[] args) {
 
 
         Scanner scanner = new Scanner(System.in); //System.in is a standard input stream
         System.out.print("Digita ora per le Ore oppure minuti per i Minuti: ");
         String c = scanner.nextLine();
-        int minuto = 0;
         if (c.equals("minuti")) {
 
             System.out.print("Scegli minuti: ");
@@ -45,378 +55,421 @@ public class SostitutoreDate {
             scanner.close();
             minuto = ora;
         }
-        boolean rename100 = false;
-        boolean rename101 = false;
-        boolean rename102 = false;
-        boolean rename103 = false;
-        boolean rename104 = false;
-        boolean rename105 = false;
-        boolean rename106 = false;
-        boolean rename107 = false;
-        boolean rename108 = false;
-        boolean rename109 = false;
 
 
-        for (int j = 0; j < minuto; j++) {
-            File[] files = getCartellaTest100().listFiles(); // spostato all interno del primo in modo tale che venga aggiornato
-            System.out.println("copiate: " + (j * 10) + " immagini");
-            for (int i = 0; i < files.length; i++) {
-                if (files[i].isFile()) {
+    Thread thread0 = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            for (int j = 0; j < minuto; j++) {
+                File[] files = getCartellaTest100().listFiles(); // spostato all interno del primo in modo tale che venga aggiornato
+                System.out.println("copiate: " + (j * 10) + " immagini");
+                for (int i = 0; i < files.length; i++) {
+                    if (files[i].isFile()) {
 
-                    File newFile100 = sostituisciNomeImmagine100(files[i]);
+                        File newFile100 = sostituisciNomeImmagine100(files[i]);
 
-                    rename100 = files[i].renameTo(newFile100);   // Da sistemare
+                        rename100 = files[i].renameTo(newFile100);   // Da sistemare
 
-                    System.out.println(files[i]);
+                        System.out.println(files[i]);
 
-                    try {
-                        Path destPath100 = getCartella100().toPath().resolve(newFile100.getName());
-                        Files.copy(newFile100.toPath(), destPath100 /*StandardCopyOption.REPLACE_EXISTING*/);
-                        System.out.println("File copiato in: " + destPath100);
+                        try {
+                            Path destPath100 = getCartella100().toPath().resolve(newFile100.getName());
+                            Files.copy(newFile100.toPath(), destPath100 /*StandardCopyOption.REPLACE_EXISTING*/);
+                            System.out.println("File copiato in: " + destPath100);
 
-                    } catch (IOException e) {
-                        System.out.println("File non copiato: errore");
-                        e.printStackTrace();
+                        } catch (IOException e) {
+                            System.out.println("File non copiato: errore");
+                            e.printStackTrace();
+                        }
+                        try {
+                            Thread.sleep(WAIT);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                        if (rename100 == true) {
+                            System.out.println("file rinominato");
+                        } else {
+                            System.out.println("errore file non rinominato");
+                        }
                     }
-                    try {
-                        Thread.sleep(WAIT);
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                    if (rename100 == true) {
-                        System.out.println("file rinominato");
-                    } else {
-                        System.out.println("errore file non rinominato");
-                    }
+
                 }
-
             }
         }
+    });
 
 
-        for (int j = 0; j < minuto; j++) {
-            File[] files = getCartellaTest101().listFiles(); // spostato all interno del primo in modo tale che venga aggiornato
-            System.out.println("copiate: " + (j * 10) + " immagini");
-            for (int i = 0; i < files.length; i++) {
-                if (files[i].isFile()) {
+    Thread thread1 = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            for (int j = 0; j < minuto; j++) {
+                File[] files = getCartellaTest101().listFiles(); // spostato all interno del primo in modo tale che venga aggiornato
+                System.out.println("copiate: " + (j * 10) + " immagini");
+                for (int i = 0; i < files.length; i++) {
+                    if (files[i].isFile()) {
 
-                    File newFile101 = sostituisciNomeImmagine101(files[i]);
+                        File newFile101 = sostituisciNomeImmagine101(files[i]);
 
-                    rename101 = files[i].renameTo(newFile101);   // Da sistemare
+                        rename101 = files[i].renameTo(newFile101);   // Da sistemare
 
-                    System.out.println(files[i]);
+                        System.out.println(files[i]);
 
-                    try {
-                        Path destPath101 = getCartella101().toPath().resolve(newFile101.getName());
-                        Files.copy(newFile101.toPath(), destPath101 /*StandardCopyOption.REPLACE_EXISTING*/);
-                        System.out.println("File copiato in: " + destPath101);
+                        try {
+                            Path destPath101 = getCartella101().toPath().resolve(newFile101.getName());
+                            Files.copy(newFile101.toPath(), destPath101 /*StandardCopyOption.REPLACE_EXISTING*/);
+                            System.out.println("File copiato in: " + destPath101);
 
-                    } catch (IOException e) {
-                        System.out.println("File non copiato: errore");
-                        e.printStackTrace();
+                        } catch (IOException e) {
+                            System.out.println("File non copiato: errore");
+                            e.printStackTrace();
+                        }
+                        try {
+                            Thread.sleep(WAIT);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                        if (rename101 == true) {
+                            System.out.println("file rinominato");
+                        } else {
+                            System.out.println("errore file non rinominato");
+                        }
                     }
-                    try {
-                        Thread.sleep(WAIT);
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                    if (rename101 == true) {
-                        System.out.println("file rinominato");
-                    } else {
-                        System.out.println("errore file non rinominato");
-                    }
+
                 }
-
             }
         }
+    });
+    Thread thread2 = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            for (int j = 0; j < minuto; j++) {
+                File[] files = getCartellaTest102().listFiles(); // spostato all interno del primo in modo tale che venga aggiornato
+                System.out.println("copiate: " + (j * 10) + " immagini");
+                for (int i = 0; i < files.length; i++) {
+                    if (files[i].isFile()) {
 
-        for (int j = 0; j < minuto; j++) {
-            File[] files = getCartellaTest102().listFiles(); // spostato all interno del primo in modo tale che venga aggiornato
-            System.out.println("copiate: " + (j * 10) + " immagini");
-            for (int i = 0; i < files.length; i++) {
-                if (files[i].isFile()) {
+                        File newFile102 = sostituisciNomeImmagine102(files[i]);
 
-                    File newFile102 = sostituisciNomeImmagine102(files[i]);
+                        rename102 = files[i].renameTo(newFile102);   // Da sistemare
 
-                    rename102 = files[i].renameTo(newFile102);   // Da sistemare
+                        System.out.println(files[i]);
 
-                    System.out.println(files[i]);
+                        try {
+                            Path destPath102 = getCartella102().toPath().resolve(newFile102.getName());
+                            Files.copy(newFile102.toPath(), destPath102 /*StandardCopyOption.REPLACE_EXISTING*/);
+                            System.out.println("File copiato in: " + destPath102);
 
-                    try {
-                        Path destPath102 = getCartella102().toPath().resolve(newFile102.getName());
-                        Files.copy(newFile102.toPath(), destPath102 /*StandardCopyOption.REPLACE_EXISTING*/);
-                        System.out.println("File copiato in: " + destPath102);
-
-                    } catch (IOException e) {
-                        System.out.println("File non copiato: errore");
-                        e.printStackTrace();
+                        } catch (IOException e) {
+                            System.out.println("File non copiato: errore");
+                            e.printStackTrace();
+                        }
+                        try {
+                            Thread.sleep(WAIT);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                        if (rename102 == true) {
+                            System.out.println("file rinominato");
+                        } else {
+                            System.out.println("errore file non rinominato");
+                        }
                     }
-                    try {
-                        Thread.sleep(WAIT);
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                    if (rename102 == true) {
-                        System.out.println("file rinominato");
-                    } else {
-                        System.out.println("errore file non rinominato");
-                    }
+
                 }
-
             }
         }
+    });
+    Thread thread3 = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            for (int j = 0; j < minuto; j++) {
+                File[] files = getCartellaTest103().listFiles(); // spostato all interno del primo in modo tale che venga aggiornato
+                System.out.println("copiate: " + (j * 10) + " immagini");
+                for (int i = 0; i < files.length; i++) {
+                    if (files[i].isFile()) {
 
-        for (int j = 0; j < minuto; j++) {
-            File[] files = getCartellaTest103().listFiles(); // spostato all interno del primo in modo tale che venga aggiornato
-            System.out.println("copiate: " + (j * 10) + " immagini");
-            for (int i = 0; i < files.length; i++) {
-                if (files[i].isFile()) {
+                        File newFile103 = sostituisciNomeImmagine103(files[i]);
 
-                    File newFile103 = sostituisciNomeImmagine103(files[i]);
+                        rename103 = files[i].renameTo(newFile103);   // Da sistemare
 
-                    rename103 = files[i].renameTo(newFile103);   // Da sistemare
+                        System.out.println(files[i]);
 
-                    System.out.println(files[i]);
+                        try {
+                            Path destPath103 = getCartella103().toPath().resolve(newFile103.getName());
+                            Files.copy(newFile103.toPath(), destPath103 /*StandardCopyOption.REPLACE_EXISTING*/);
+                            System.out.println("File copiato in: " + destPath103);
 
-                    try {
-                        Path destPath103 = getCartella103().toPath().resolve(newFile103.getName());
-                        Files.copy(newFile103.toPath(), destPath103 /*StandardCopyOption.REPLACE_EXISTING*/);
-                        System.out.println("File copiato in: " + destPath103);
-
-                    } catch (IOException e) {
-                        System.out.println("File non copiato: errore");
-                        e.printStackTrace();
+                        } catch (IOException e) {
+                            System.out.println("File non copiato: errore");
+                            e.printStackTrace();
+                        }
+                        try {
+                            Thread.sleep(WAIT);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                        if (rename103 == true) {
+                            System.out.println("file rinominato");
+                        } else {
+                            System.out.println("errore file non rinominato");
+                        }
                     }
-                    try {
-                        Thread.sleep(WAIT);
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                    if (rename103 == true) {
-                        System.out.println("file rinominato");
-                    } else {
-                        System.out.println("errore file non rinominato");
-                    }
+
                 }
-
             }
         }
+    });
+    Thread thread4 = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            for (int j = 0; j < minuto; j++) {
+                File[] files = getCartellaTest104().listFiles(); // spostato all interno del primo in modo tale che venga aggiornato
+                System.out.println("copiate: " + (j * 10) + " immagini");
+                for (int i = 0; i < files.length; i++) {
+                    if (files[i].isFile()) {
 
-        for (int j = 0; j < minuto; j++) {
-            File[] files = getCartellaTest104().listFiles(); // spostato all interno del primo in modo tale che venga aggiornato
-            System.out.println("copiate: " + (j * 10) + " immagini");
-            for (int i = 0; i < files.length; i++) {
-                if (files[i].isFile()) {
+                        File newFile104 = sostituisciNomeImmagine104(files[i]);
 
-                    File newFile104 = sostituisciNomeImmagine104(files[i]);
+                        rename104 = files[i].renameTo(newFile104);   // Da sistemare
 
-                    rename104 = files[i].renameTo(newFile104);   // Da sistemare
+                        System.out.println(files[i]);
 
-                    System.out.println(files[i]);
+                        try {
+                            Path destPath104 = getCartella104().toPath().resolve(newFile104.getName());
+                            Files.copy(newFile104.toPath(), destPath104 /*StandardCopyOption.REPLACE_EXISTING*/);
+                            System.out.println("File copiato in: " + destPath104);
 
-                    try {
-                        Path destPath104 = getCartella104().toPath().resolve(newFile104.getName());
-                        Files.copy(newFile104.toPath(), destPath104 /*StandardCopyOption.REPLACE_EXISTING*/);
-                        System.out.println("File copiato in: " + destPath104);
-
-                    } catch (IOException e) {
-                        System.out.println("File non copiato: errore");
-                        e.printStackTrace();
+                        } catch (IOException e) {
+                            System.out.println("File non copiato: errore");
+                            e.printStackTrace();
+                        }
+                        try {
+                            Thread.sleep(WAIT);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                        if (rename104 == true) {
+                            System.out.println("file rinominato");
+                        } else {
+                            System.out.println("errore file non rinominato");
+                        }
                     }
-                    try {
-                        Thread.sleep(WAIT);
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                    if (rename104 == true) {
-                        System.out.println("file rinominato");
-                    } else {
-                        System.out.println("errore file non rinominato");
-                    }
+
                 }
-
             }
         }
+    });
+    Thread thread5 = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            for (int j = 0; j < minuto; j++) {
+                File[] files = getCartellaTest105().listFiles(); // spostato all interno del primo in modo tale che venga aggiornato
+                System.out.println("copiate: " + (j * 10) + " immagini");
+                for (int i = 0; i < files.length; i++) {
+                    if (files[i].isFile()) {
 
-        for (int j = 0; j < minuto; j++) {
-            File[] files = getCartellaTest105().listFiles(); // spostato all interno del primo in modo tale che venga aggiornato
-            System.out.println("copiate: " + (j * 10) + " immagini");
-            for (int i = 0; i < files.length; i++) {
-                if (files[i].isFile()) {
+                        File newFile105 = sostituisciNomeImmagine105(files[i]);
 
-                    File newFile105 = sostituisciNomeImmagine105(files[i]);
+                        rename105 = files[i].renameTo(newFile105);   // Da sistemare
 
-                    rename105 = files[i].renameTo(newFile105);   // Da sistemare
+                        System.out.println(files[i]);
 
-                    System.out.println(files[i]);
+                        try {
+                            Path destPath105 = getCartella105().toPath().resolve(newFile105.getName());
+                            Files.copy(newFile105.toPath(), destPath105 /*StandardCopyOption.REPLACE_EXISTING*/);
+                            System.out.println("File copiato in: " + destPath105);
 
-                    try {
-                        Path destPath105 = getCartella105().toPath().resolve(newFile105.getName());
-                        Files.copy(newFile105.toPath(), destPath105 /*StandardCopyOption.REPLACE_EXISTING*/);
-                        System.out.println("File copiato in: " + destPath105);
-
-                    } catch (IOException e) {
-                        System.out.println("File non copiato: errore");
-                        e.printStackTrace();
+                        } catch (IOException e) {
+                            System.out.println("File non copiato: errore");
+                            e.printStackTrace();
+                        }
+                        try {
+                            Thread.sleep(WAIT);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                        if (rename105 == true) {
+                            System.out.println("file rinominato");
+                        } else {
+                            System.out.println("errore file non rinominato");
+                        }
                     }
-                    try {
-                        Thread.sleep(WAIT);
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                    if (rename105 == true) {
-                        System.out.println("file rinominato");
-                    } else {
-                        System.out.println("errore file non rinominato");
-                    }
+
                 }
-
             }
         }
+    });
+    Thread thread6 = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            for (int j = 0; j < minuto; j++) {
+                File[] files = getCartellaTest106().listFiles(); // spostato all interno del primo in modo tale che venga aggiornato
+                System.out.println("copiate: " + (j * 10) + " immagini");
+                for (int i = 0; i < files.length; i++) {
+                    if (files[i].isFile()) {
 
-        for (int j = 0; j < minuto; j++) {
-            File[] files = getCartellaTest106().listFiles(); // spostato all interno del primo in modo tale che venga aggiornato
-            System.out.println("copiate: " + (j * 10) + " immagini");
-            for (int i = 0; i < files.length; i++) {
-                if (files[i].isFile()) {
+                        File newFile106 = sostituisciNomeImmagine106(files[i]);
 
-                    File newFile106 = sostituisciNomeImmagine106(files[i]);
+                        rename106 = files[i].renameTo(newFile106);   // Da sistemare
 
-                    rename106 = files[i].renameTo(newFile106);   // Da sistemare
+                        System.out.println(files[i]);
 
-                    System.out.println(files[i]);
+                        try {
+                            Path destPath106 = getCartella106().toPath().resolve(newFile106.getName());
+                            Files.copy(newFile106.toPath(), destPath106 /*StandardCopyOption.REPLACE_EXISTING*/);
+                            System.out.println("File copiato in: " + destPath106);
 
-                    try {
-                        Path destPath106 = getCartella106().toPath().resolve(newFile106.getName());
-                        Files.copy(newFile106.toPath(), destPath106 /*StandardCopyOption.REPLACE_EXISTING*/);
-                        System.out.println("File copiato in: " + destPath106);
-
-                    } catch (IOException e) {
-                        System.out.println("File non copiato: errore");
-                        e.printStackTrace();
+                        } catch (IOException e) {
+                            System.out.println("File non copiato: errore");
+                            e.printStackTrace();
+                        }
+                        try {
+                            Thread.sleep(WAIT);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                        if (rename106 == true) {
+                            System.out.println("file rinominato");
+                        } else {
+                            System.out.println("errore file non rinominato");
+                        }
                     }
-                    try {
-                        Thread.sleep(WAIT);
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                    if (rename106 == true) {
-                        System.out.println("file rinominato");
-                    } else {
-                        System.out.println("errore file non rinominato");
-                    }
+
                 }
-
             }
         }
+    });
+    Thread thread7 = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            for (int j = 0; j < minuto; j++) {
+                File[] files = getCartellaTest107().listFiles(); // spostato all interno del primo in modo tale che venga aggiornato
+                System.out.println("copiate: " + (j * 10) + " immagini");
+                for (int i = 0; i < files.length; i++) {
+                    if (files[i].isFile()) {
 
-        for (int j = 0; j < minuto; j++) {
-            File[] files = getCartellaTest107().listFiles(); // spostato all interno del primo in modo tale che venga aggiornato
-            System.out.println("copiate: " + (j * 10) + " immagini");
-            for (int i = 0; i < files.length; i++) {
-                if (files[i].isFile()) {
+                        File newFile107 = sostituisciNomeImmagine107(files[i]);
 
-                    File newFile107 = sostituisciNomeImmagine107(files[i]);
+                        rename107 = files[i].renameTo(newFile107);   // Da sistemare
 
-                    rename107 = files[i].renameTo(newFile107);   // Da sistemare
+                        System.out.println(files[i]);
 
-                    System.out.println(files[i]);
+                        try {
+                            Path destPath107 = getCartella107().toPath().resolve(newFile107.getName());
+                            Files.copy(newFile107.toPath(), destPath107 /*StandardCopyOption.REPLACE_EXISTING*/);
+                            System.out.println("File copiato in: " + destPath107);
 
-                    try {
-                        Path destPath107 = getCartella107().toPath().resolve(newFile107.getName());
-                        Files.copy(newFile107.toPath(), destPath107 /*StandardCopyOption.REPLACE_EXISTING*/);
-                        System.out.println("File copiato in: " + destPath107);
-
-                    } catch (IOException e) {
-                        System.out.println("File non copiato: errore");
-                        e.printStackTrace();
+                        } catch (IOException e) {
+                            System.out.println("File non copiato: errore");
+                            e.printStackTrace();
+                        }
+                        try {
+                            Thread.sleep(WAIT);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                        if (rename107 == true) {
+                            System.out.println("file rinominato");
+                        } else {
+                            System.out.println("errore file non rinominato");
+                        }
                     }
-                    try {
-                        Thread.sleep(WAIT);
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                    if (rename107 == true) {
-                        System.out.println("file rinominato");
-                    } else {
-                        System.out.println("errore file non rinominato");
-                    }
+
                 }
-
             }
         }
+    });
+    Thread thread8 = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            for (int j = 0; j < minuto; j++) {
+                File[] files = getCartellaTest108().listFiles(); // spostato all interno del primo in modo tale che venga aggiornato
+                System.out.println("copiate: " + (j * 10) + " immagini");
+                for (int i = 0; i < files.length; i++) {
+                    if (files[i].isFile()) {
 
-        for (int j = 0; j < minuto; j++) {
-            File[] files = getCartellaTest108().listFiles(); // spostato all interno del primo in modo tale che venga aggiornato
-            System.out.println("copiate: " + (j * 10) + " immagini");
-            for (int i = 0; i < files.length; i++) {
-                if (files[i].isFile()) {
+                        File newFile108 = sostituisciNomeImmagine108(files[i]);
 
-                    File newFile108 = sostituisciNomeImmagine108(files[i]);
+                        rename108 = files[i].renameTo(newFile108);   // Da sistemare
 
-                    rename108 = files[i].renameTo(newFile108);   // Da sistemare
+                        System.out.println(files[i]);
 
-                    System.out.println(files[i]);
+                        try {
+                            Path destPath108 = getCartella108().toPath().resolve(newFile108.getName());
+                            Files.copy(newFile108.toPath(), destPath108 /*StandardCopyOption.REPLACE_EXISTING*/);
+                            System.out.println("File copiato in: " + destPath108);
 
-                    try {
-                        Path destPath108 = getCartella108().toPath().resolve(newFile108.getName());
-                        Files.copy(newFile108.toPath(), destPath108 /*StandardCopyOption.REPLACE_EXISTING*/);
-                        System.out.println("File copiato in: " + destPath108);
-
-                    } catch (IOException e) {
-                        System.out.println("File non copiato: errore");
-                        e.printStackTrace();
+                        } catch (IOException e) {
+                            System.out.println("File non copiato: errore");
+                            e.printStackTrace();
+                        }
+                        try {
+                            Thread.sleep(WAIT);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                        if (rename108 == true) {
+                            System.out.println("file rinominato");
+                        } else {
+                            System.out.println("errore file non rinominato");
+                        }
                     }
-                    try {
-                        Thread.sleep(WAIT);
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                    if (rename108 == true) {
-                        System.out.println("file rinominato");
-                    } else {
-                        System.out.println("errore file non rinominato");
-                    }
+
                 }
-
             }
         }
+    });
+    Thread thread9 = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            for (int j = 0; j < minuto; j++) {
+                File[] files = getCartellaTest109().listFiles(); // spostato all interno del primo in modo tale che venga aggiornato
+                System.out.println("copiate: " + (j * 10) + " immagini");
+                for (int i = 0; i < files.length; i++) {
+                    if (files[i].isFile()) {
 
-        for (int j = 0; j < minuto; j++) {
-            File[] files = getCartellaTest109().listFiles(); // spostato all interno del primo in modo tale che venga aggiornato
-            System.out.println("copiate: " + (j * 10) + " immagini");
-            for (int i = 0; i < files.length; i++) {
-                if (files[i].isFile()) {
+                        File newFile109 = sostituisciNomeImmagine109(files[i]);
 
-                    File newFile109 = sostituisciNomeImmagine109(files[i]);
+                        rename109 = files[i].renameTo(newFile109);   // Da sistemare
 
-                    rename109 = files[i].renameTo(newFile109);   // Da sistemare
+                        System.out.println(files[i]);
 
-                    System.out.println(files[i]);
+                        try {
+                            Path destPath109 = getCartella109().toPath().resolve(newFile109.getName());
+                            Files.copy(newFile109.toPath(), destPath109 /*StandardCopyOption.REPLACE_EXISTING*/);
+                            System.out.println("File copiato in: " + destPath109);
 
-                    try {
-                        Path destPath109 = getCartella109().toPath().resolve(newFile109.getName());
-                        Files.copy(newFile109.toPath(), destPath109 /*StandardCopyOption.REPLACE_EXISTING*/);
-                        System.out.println("File copiato in: " + destPath109);
-
-                    } catch (IOException e) {
-                        System.out.println("File non copiato: errore");
-                        e.printStackTrace();
+                        } catch (IOException e) {
+                            System.out.println("File non copiato: errore");
+                            e.printStackTrace();
+                        }
+                        try {
+                            Thread.sleep(WAIT);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                        if (rename109 == true) {
+                            System.out.println("file rinominato");
+                        } else {
+                            System.out.println("errore file non rinominato");
+                        }
                     }
-                    try {
-                        Thread.sleep(WAIT);
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                    if (rename109 == true) {
-                        System.out.println("file rinominato");
-                    } else {
-                        System.out.println("errore file non rinominato");
-                    }
+
                 }
-
             }
         }
+    });
+        thread0.start();
+        thread1.start();
+        thread2.start();
+        thread3.start();
+        thread4.start();
+        thread5.start();
+        thread6.start();
+        thread7.start();
+        thread8.start();
+        thread9.start();
+
     }
 
 
