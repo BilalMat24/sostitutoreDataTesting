@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.Scanner;
+import java.util.Timer;
 
 public class SostitutoreDate {
     private static final String cam100 = "_cam100";
@@ -19,9 +20,6 @@ public class SostitutoreDate {
     private static final String cam108 = "_cam108";
     private static final String cam109 = "_cam109";
 
-    private static int GIRI = 6; // il programma elabora 10 img al secondo, quindi 6 giri sono 60 img al minuto
-    private static int WAIT = 1000; // aspetto 1000 millisecondi(1s)
-    volatile static int minuto = 0;
     volatile static boolean rename100 = false;
     volatile static boolean rename101 = false;
     volatile static boolean rename102 = false;
@@ -32,8 +30,19 @@ public class SostitutoreDate {
     volatile static boolean rename107 = false;
     volatile static boolean rename108 = false;
     volatile static boolean rename109 = false;
+
+    private static int WAIT = 5000   ; // aspetto 1000 millisecondi(1s). Usalo per modificare cadenza invio immagini
+    private static int minuto = 0;
+    private static long start = System.currentTimeMillis();
+    private static int minuto1= 60 * 1000;// 60 secondi
+    private static long end = start + minuto1;
+
+
     public static void main(String[] args) {
 
+
+
+        Timer timer = new Timer(); //non ancora utilizzato
 
         Scanner scanner = new Scanner(System.in); //System.in is a standard input stream
         System.out.print("Digita ora per le Ore oppure minuti per i Minuti: ");
@@ -42,27 +51,27 @@ public class SostitutoreDate {
 
             System.out.print("Scegli minuti: ");
             int scegliMinuto = scanner.nextInt();
-            minuto = GIRI * scegliMinuto;
-            System.out.println("Il valore in secondi è: " + (minuto * 10));
+            minuto = minuto1 * scegliMinuto;
+            //System.out.println("Il valore in secondi è: " + (minuto * 10));
             scanner.close();
-            System.out.print("Scegli minuti: ");
+            minuto1 = minuto;
         } else if (c.equals("ora")) {
 
             System.out.print("Scegli Ora: ");
             int scegliOra = scanner.nextInt();
-            int ora = GIRI * (scegliOra*60) ;
-            System.out.println("Il valore in secondi è: " + (ora * 10));
+            int ora = minuto1 * (scegliOra*60) ;
+            //System.out.println("Il valore in secondi è: " + (ora * 10));
             scanner.close();
-            minuto = ora;
+            minuto1 = ora;
         }
 
 
     Thread thread0 = new Thread(new Runnable() {
         @Override
         public void run() {
-            for (int j = 0; j < minuto; j++) {
+            while (System.currentTimeMillis() < end) {
                 File[] files = getCartellaTest100().listFiles(); // spostato all interno del primo in modo tale che venga aggiornato
-                System.out.println("copiate: " + (j * 10) + " immagini");
+              //  System.out.println("copiate: " + (j * 10) + " immagini");
                 for (int i = 0; i < files.length; i++) {
                     if (files[i].isFile()) {
 
@@ -102,9 +111,9 @@ public class SostitutoreDate {
     Thread thread1 = new Thread(new Runnable() {
         @Override
         public void run() {
-            for (int j = 0; j < minuto; j++) {
+            while (System.currentTimeMillis() < end) {
                 File[] files = getCartellaTest101().listFiles(); // spostato all interno del primo in modo tale che venga aggiornato
-                System.out.println("copiate: " + (j * 10) + " immagini");
+               // System.out.println("copiate: " + (j * 10) + " immagini");
                 for (int i = 0; i < files.length; i++) {
                     if (files[i].isFile()) {
 
@@ -142,9 +151,9 @@ public class SostitutoreDate {
     Thread thread2 = new Thread(new Runnable() {
         @Override
         public void run() {
-            for (int j = 0; j < minuto; j++) {
+            while (System.currentTimeMillis() < end) {
                 File[] files = getCartellaTest102().listFiles(); // spostato all interno del primo in modo tale che venga aggiornato
-                System.out.println("copiate: " + (j * 10) + " immagini");
+                //System.out.println("copiate: " + (j * 10) + " immagini");
                 for (int i = 0; i < files.length; i++) {
                     if (files[i].isFile()) {
 
@@ -182,15 +191,15 @@ public class SostitutoreDate {
     Thread thread3 = new Thread(new Runnable() {
         @Override
         public void run() {
-            for (int j = 0; j < minuto; j++) {
+            while (System.currentTimeMillis() < end){
                 File[] files = getCartellaTest103().listFiles(); // spostato all interno del primo in modo tale che venga aggiornato
-                System.out.println("copiate: " + (j * 10) + " immagini");
+                //System.out.println("copiate: " + (j * 10) + " immagini");
                 for (int i = 0; i < files.length; i++) {
                     if (files[i].isFile()) {
 
                         File newFile103 = sostituisciNomeImmagine103(files[i]);
 
-                        rename103 = files[i].renameTo(newFile103);   // Da sistemare
+                        rename103 = files[i].renameTo(newFile103);   // Da sistemare in caso si voglia tenere il nome dell originale e ottenere imamgine con nome sostituito
 
                         System.out.println(files[i]);
 
@@ -222,9 +231,9 @@ public class SostitutoreDate {
     Thread thread4 = new Thread(new Runnable() {
         @Override
         public void run() {
-            for (int j = 0; j < minuto; j++) {
+            while (System.currentTimeMillis() < end) {
                 File[] files = getCartellaTest104().listFiles(); // spostato all interno del primo in modo tale che venga aggiornato
-                System.out.println("copiate: " + (j * 10) + " immagini");
+                //System.out.println("copiate: " + (j * 10) + " immagini");
                 for (int i = 0; i < files.length; i++) {
                     if (files[i].isFile()) {
 
@@ -262,9 +271,9 @@ public class SostitutoreDate {
     Thread thread5 = new Thread(new Runnable() {
         @Override
         public void run() {
-            for (int j = 0; j < minuto; j++) {
+            while (System.currentTimeMillis() < end) {
                 File[] files = getCartellaTest105().listFiles(); // spostato all interno del primo in modo tale che venga aggiornato
-                System.out.println("copiate: " + (j * 10) + " immagini");
+                //System.out.println("copiate: " + (j * 10) + " immagini");
                 for (int i = 0; i < files.length; i++) {
                     if (files[i].isFile()) {
 
@@ -302,9 +311,9 @@ public class SostitutoreDate {
     Thread thread6 = new Thread(new Runnable() {
         @Override
         public void run() {
-            for (int j = 0; j < minuto; j++) {
+            while (System.currentTimeMillis() < end) {
                 File[] files = getCartellaTest106().listFiles(); // spostato all interno del primo in modo tale che venga aggiornato
-                System.out.println("copiate: " + (j * 10) + " immagini");
+                //System.out.println("copiate: " + (j * 10) + " immagini");
                 for (int i = 0; i < files.length; i++) {
                     if (files[i].isFile()) {
 
@@ -342,9 +351,9 @@ public class SostitutoreDate {
     Thread thread7 = new Thread(new Runnable() {
         @Override
         public void run() {
-            for (int j = 0; j < minuto; j++) {
+            while (System.currentTimeMillis() < end) {
                 File[] files = getCartellaTest107().listFiles(); // spostato all interno del primo in modo tale che venga aggiornato
-                System.out.println("copiate: " + (j * 10) + " immagini");
+                //System.out.println("copiate: " + (j * 10) + " immagini");
                 for (int i = 0; i < files.length; i++) {
                     if (files[i].isFile()) {
 
@@ -382,9 +391,9 @@ public class SostitutoreDate {
     Thread thread8 = new Thread(new Runnable() {
         @Override
         public void run() {
-            for (int j = 0; j < minuto; j++) {
+            while (System.currentTimeMillis() < end) {
                 File[] files = getCartellaTest108().listFiles(); // spostato all interno del primo in modo tale che venga aggiornato
-                System.out.println("copiate: " + (j * 10) + " immagini");
+               // System.out.println("copiate: " + (j * 10) + " immagini");
                 for (int i = 0; i < files.length; i++) {
                     if (files[i].isFile()) {
 
@@ -422,9 +431,9 @@ public class SostitutoreDate {
     Thread thread9 = new Thread(new Runnable() {
         @Override
         public void run() {
-            for (int j = 0; j < minuto; j++) {
+            while (System.currentTimeMillis() < end) {
                 File[] files = getCartellaTest109().listFiles(); // spostato all interno del primo in modo tale che venga aggiornato
-                System.out.println("copiate: " + (j * 10) + " immagini");
+                //System.out.println("copiate: " + (j * 10) + " immagini");
                 for (int i = 0; i < files.length; i++) {
                     if (files[i].isFile()) {
 
@@ -515,43 +524,43 @@ public class SostitutoreDate {
     }
 
     public static File getCartella100() {
-        String pathCartella100 = "C:/Users/bilal.biaz/ProgettoVIT/ControlloImmagini/nuovaImmagini/2024/11/14/cam100/";  // AGGIORNARE IN CASO DI CAMBIO NOME FOLDER
+        String pathCartella100 = "C:/Users/bilal.biaz/ProgettoVIT/ControlloImmagini/nuovaImmagini/2024/11/20/cam100/";  // AGGIORNARE IN CASO DI CAMBIO NOME FOLDER
         return new File(pathCartella100);
     }
     public static File getCartella101() {
-        String pathCartella101 = "C:/Users/bilal.biaz/ProgettoVIT/ControlloImmagini/nuovaImmagini/2024/11/14/cam101/";  // AGGIORNARE IN CASO DI CAMBIO NOME FOLDER
+        String pathCartella101 = "C:/Users/bilal.biaz/ProgettoVIT/ControlloImmagini/nuovaImmagini/2024/11/20/cam101/";  // AGGIORNARE IN CASO DI CAMBIO NOME FOLDER
         return new File(pathCartella101);
     }
     public static File getCartella102() {
-        String pathCartella102 = "C:/Users/bilal.biaz/ProgettoVIT/ControlloImmagini/nuovaImmagini/2024/11/14/cam102/";  // AGGIORNARE IN CASO DI CAMBIO NOME FOLDER
+        String pathCartella102 = "C:/Users/bilal.biaz/ProgettoVIT/ControlloImmagini/nuovaImmagini/2024/11/20/cam102/";  // AGGIORNARE IN CASO DI CAMBIO NOME FOLDER
         return new File(pathCartella102);
     }
     public static File getCartella103() {
-        String pathCartella103 = "C:/Users/bilal.biaz/ProgettoVIT/ControlloImmagini/nuovaImmagini/2024/11/14/cam103/";  // AGGIORNARE IN CASO DI CAMBIO NOME FOLDER
+        String pathCartella103 = "C:/Users/bilal.biaz/ProgettoVIT/ControlloImmagini/nuovaImmagini/2024/11/20/cam103/";  // AGGIORNARE IN CASO DI CAMBIO NOME FOLDER
         return new File(pathCartella103);
     }
     public static File getCartella104() {
-        String pathCartella104 = "C:/Users/bilal.biaz/ProgettoVIT/ControlloImmagini/nuovaImmagini/2024/11/14/cam104/";  // AGGIORNARE IN CASO DI CAMBIO NOME FOLDER
+        String pathCartella104 = "C:/Users/bilal.biaz/ProgettoVIT/ControlloImmagini/nuovaImmagini/2024/11/20/cam104/";  // AGGIORNARE IN CASO DI CAMBIO NOME FOLDER
         return new File(pathCartella104);
     }
     public static File getCartella105() {
-        String pathCartella105 = "C:/Users/bilal.biaz/ProgettoVIT/ControlloImmagini/nuovaImmagini/2024/11/14/cam105/";  // AGGIORNARE IN CASO DI CAMBIO NOME FOLDER
+        String pathCartella105 = "C:/Users/bilal.biaz/ProgettoVIT/ControlloImmagini/nuovaImmagini/2024/11/20/cam105/";  // AGGIORNARE IN CASO DI CAMBIO NOME FOLDER
         return new File(pathCartella105);
     }
     public static File getCartella106() {
-        String pathCartella106 = "C:/Users/bilal.biaz/ProgettoVIT/ControlloImmagini/nuovaImmagini/2024/11/14/cam106/";  // AGGIORNARE IN CASO DI CAMBIO NOME FOLDER
+        String pathCartella106 = "C:/Users/bilal.biaz/ProgettoVIT/ControlloImmagini/nuovaImmagini/2024/11/20/cam106/";  // AGGIORNARE IN CASO DI CAMBIO NOME FOLDER
         return new File(pathCartella106);
     }
     public static File getCartella107() {
-        String pathCartella107 = "C:/Users/bilal.biaz/ProgettoVIT/ControlloImmagini/nuovaImmagini/2024/11/14/cam107/";  // AGGIORNARE IN CASO DI CAMBIO NOME FOLDER
+        String pathCartella107 = "C:/Users/bilal.biaz/ProgettoVIT/ControlloImmagini/nuovaImmagini/2024/11/20/cam107/";  // AGGIORNARE IN CASO DI CAMBIO NOME FOLDER
         return new File(pathCartella107);
     }
     public static File getCartella108() {
-        String pathCartella108 = "C:/Users/bilal.biaz/ProgettoVIT/ControlloImmagini/nuovaImmagini/2024/11/14/cam108/";  // AGGIORNARE IN CASO DI CAMBIO NOME FOLDER
+        String pathCartella108 = "C:/Users/bilal.biaz/ProgettoVIT/ControlloImmagini/nuovaImmagini/2024/11/20/cam108/";  // AGGIORNARE IN CASO DI CAMBIO NOME FOLDER
         return new File(pathCartella108);
     }
     public static File getCartella109() {
-        String pathCartella109 = "C:/Users/bilal.biaz/ProgettoVIT/ControlloImmagini/nuovaImmagini/2024/11/14/cam109/";  // AGGIORNARE IN CASO DI CAMBIO NOME FOLDER
+        String pathCartella109 = "C:/Users/bilal.biaz/ProgettoVIT/ControlloImmagini/nuovaImmagini/2024/11/20/cam109/";  // AGGIORNARE IN CASO DI CAMBIO NOME FOLDER
         return new File(pathCartella109);
     }
 
